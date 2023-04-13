@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
+import * as argon from 'argon2';
 
 @Injectable()
 export class AuthService {
-  signup(dto: AuthDto) {
-    return 'signed up from service';
+  async signup(dto: AuthDto) {
+    const hash = await argon.hash(dto.password);
+    return hash;
   }
 
   signin(dto: AuthDto) {

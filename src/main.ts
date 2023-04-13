@@ -11,7 +11,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  app.useGlobalPipes(new ValidationPipe()); // for password validation
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // for password validation // whitelist:true will receive only info defined in dto
   await app.listen(3000);
 }
 bootstrap();
