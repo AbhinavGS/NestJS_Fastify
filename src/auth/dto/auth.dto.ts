@@ -14,4 +14,15 @@ export class AuthDto {
     },
   )
   password: string;
+
+  @IsNotEmpty()
+  firstName: string;
+
+  @IsNotEmpty()
+  lastName: string;
+
+  @Matches(/^[6-9]\d{9}$/, {
+    message: 'Mobile number must be a valid Indian mobile number',
+  })
+  mobileNumber: string;
 }

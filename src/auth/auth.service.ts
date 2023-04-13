@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma } from '@prisma/client';
+import e from 'express';
 
 @Injectable()
 export class AuthService {
@@ -20,12 +21,19 @@ export class AuthService {
         data: {
           email: dto.email,
           hash,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          mobileNumber: dto.mobileNumber,
         },
       });
       return this.signToken(user.id, user.email);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
+        if (error.code === 'P2002' && error.meta.target[0] === 'mobileNumber') {
+          throw new ForbiddenException(
+            'Entered mobile number is already registered',
+          );
+        } else {
           throw new ForbiddenException('Credentials taken');
         }
       }
@@ -51,7 +59,7 @@ export class AuthService {
   }
 
   async signToken(
-    userId: number,
+    userId: string,
     email: string,
   ): Promise<{ access_token: string }> {
     const payload = {
