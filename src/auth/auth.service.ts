@@ -13,6 +13,7 @@ export class AuthService {
     private config: ConfigService,
     private jwt: JwtService,
   ) {}
+
   async signup(dto: AuthSignUpDTO) {
     const hash = await argon.hash(dto.password); // hash password string using argon2
     try {

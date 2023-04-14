@@ -5,6 +5,7 @@ import { AuthSignInDTO, AuthSignUpDTO } from './dto';
 @Controller('auth') // auth will be added to route
 export class AuthController {
   constructor(private authService: AuthService) {} // dependency injection
+
   @Post('signup') // route => auth/signup
   signup(@Body() dto: AuthSignUpDTO) {
     return this.authService.signup(dto);
