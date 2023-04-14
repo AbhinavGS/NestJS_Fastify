@@ -6,7 +6,7 @@ import {
   ValidateIf,
 } from 'class-validator';
 
-export class AuthDto {
+export class AuthSignUpDTO {
   @IsEmail()
   @IsNotEmpty()
   email: string;
