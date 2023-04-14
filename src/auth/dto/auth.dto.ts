@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  ValidateIf,
+} from 'class-validator';
 
 export class AuthDto {
   @IsEmail()
@@ -24,5 +30,6 @@ export class AuthDto {
   @Matches(/^[6-9]\d{9}$/, {
     message: 'Mobile number must be a valid Indian mobile number',
   })
-  mobileNumber: string;
+  @ValidateIf((object, value) => value !== undefined) // only validate if mobile number is sent as it is optional
+  mobileNumber: string | undefined;
 }
